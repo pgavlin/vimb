@@ -17,6 +17,11 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+#if defined(__APPLE__) && !defined(_DARWIN_C_SOURCE)
+#define _DARWIN_C_SOURCE
+#endif
+
+#include <fcntl.h>
 #include <glib.h>
 #include <stdio.h>
 #include <sys/file.h>

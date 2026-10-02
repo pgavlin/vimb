@@ -21,7 +21,7 @@
 #include <string.h>
 #include <webkit/webkit.h>
 #include <jsc/jsc.h>
-#include <gdk/gdkkeysyms.h>
+#include <gdk/gdk.h>
 #include "hints.h"
 #include "main.h"
 #include "ascii.h"
