@@ -2193,8 +2193,13 @@ static void vimb_setup(void)
     /* Set up web process extensions directory */
     ext_proxy_init();  /* No-op, kept for compatibility */
 
+    const char *extension_dir = g_getenv("VIMB_WEB_EXTENSION_DIR");
+    if (extension_dir == NULL || extension_dir[0] == '\0') {
+        extension_dir = EXTENSIONDIR;
+    }
+
     /* Verify webextension file exists */
-    char *extension_path = g_build_filename(EXTENSIONDIR, "webext_main.so", NULL);
+    char *extension_path = g_build_filename(extension_dir, "webext_main.so", NULL);
     if (!g_file_test(extension_path, G_FILE_TEST_IS_REGULAR)) {
         g_warning("Main process: Webextension file not found: %s", extension_path);
     }
@@ -2203,7 +2208,7 @@ static void vimb_setup(void)
     /* WebKitGTK 6.0: Pass NULL as initialization data (D-Bus address no longer needed) */
     GVariant *vdata = g_variant_new("(ms)", NULL);
     webkit_web_context_set_web_process_extensions_initialization_user_data(vb.webcontext, vdata);
-    webkit_web_context_set_web_process_extensions_directory(vb.webcontext, EXTENSIONDIR);
+    webkit_web_context_set_web_process_extensions_directory(vb.webcontext, extension_dir);
 
     /* WebKitGTK 6.0: Cookie manager is accessed through network session */
     /* Add cookie support only if the cookie file exists and not incognito */
